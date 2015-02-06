@@ -1,4 +1,30 @@
+redis:
+  image: redis:2.8
+
+mysqldata:
+  image: busybox
+  volumes:
+   - /var/lib/mysql
+  command: echo Data-only container for Mysql
+
+mysql:
+  image: mysql:5.5
+  volumes_from:
+   - mysqldata
+  environment:
+   MYSQL_ROOT_PASSWORD: pybaas
+   MYSQL_USER: pybaas
+   MYSQL_DATABASE: pybaas
+   MYSQL_PASSWORD: pybaas3287
+  ports:
+    - "3306:3306"
+
 app:
   build: .
+  links:
+    - redis
+    - mysql
   ports:
     - "80:80"
+  volumes:
+   - .:/code

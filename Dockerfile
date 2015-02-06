@@ -25,4 +25,6 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 copy app /var/www/app
 RUN pip install -r /var/www/app/requirements.txt
 
-CMD ["/usr/bin/supervisord"]
+RUN chmod 777 /code/docker/docker_run.sh
+
+CMD ["/code/docker/docker_run.sh"]
